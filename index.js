@@ -1,8 +1,12 @@
+// initiate the node package
 const rs = require("readline-sync");
-let hobbies = [];
+
+// global vars
+const hobbies = [];
 let hobbiesCount = 0;
 let areYouSure = false;
 
+// functions
 function generalQuestions() {
 	let username = rs.question("What is your name? ");
 	let userHobby = rs.question(username + ", what is your hobby? ");
@@ -12,15 +16,14 @@ function generalQuestions() {
 generalQuestions();
 
 // ask user how many hobbies they have?
-function anyMoreHobbies(hobbiesCount) {
+function anyMoreHobbies() {
 	hobbiesCount = rs.questionInt(
 		hobbies + " is a cool hobby, how many other hobbies do you have? "
 	);
 }
-anyMoreHobbies(hobbiesCount);
+anyMoreHobbies();
 
-// logic below
-if (hobbiesCount > 0) {
+function addHobbies() {
 	console.log("Great, what are they? ");
 	let count = 0;
 	while (count < hobbiesCount) {
@@ -36,10 +39,23 @@ if (hobbiesCount > 0) {
 			console.log("I wish I can do " + hobbies + ", but I'm not real HAHAHA");
 		}
 	}
+}
+console.log("Your hobby count is: " + hobbiesCount);
+
+// logic below
+if (hobbiesCount > 0) {
+	addHobbies();
 } else {
 	areYouSure = rs.keyInYN(
 		"Are you sure " + hobbies + " is the only hobby you have?"
 	);
 }
-
-console.log("the current boolean of AreYouSure is: " + areYouSure);
+// if the user decided that they want to add more hobbies
+if (!areYouSure && hobbiesCount <= 1) {
+	// asking the how many hobbies they have
+	anyMoreHobbies();
+	// storing the user's hobbies
+	addHobbies();
+} else if (areYouSure) {
+	console.log(hobbies + " is a cool hobby :)");
+}
